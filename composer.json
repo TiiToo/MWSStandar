@@ -1,6 +1,6 @@
 {
     "name": "tito/mwsstandar",
-    "description": "Creates ctags for composer projects",
+    "description": "Creates hook for composer projects",
     "license": "MIT",
     "authors": [
         {
