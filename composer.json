@@ -9,7 +9,7 @@
             "role": "Developer"
         }
     ],
-    "keywords": ["ctags", "exuberant ctags", "vim", "composer", "php"],
+    "keywords": ["composer", "php"],
     
     "require-dev": {
         "composer/composer": "1.0.x-dev"
