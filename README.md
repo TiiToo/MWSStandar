@@ -6,7 +6,7 @@ PHP Standar
 ```json
 {
     "require-dev": {
-        "TiiToo/MwsStandar": "dev-master"
+        "tito/mwsstandar": "dev-master"
     }
 }
 ```
