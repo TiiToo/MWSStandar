@@ -1,6 +1,6 @@
 # PHP Standar
 
-REquiere tener instalado PEAR consulte la Documentacion
+Requiere tener instalado PEAR consulte la Documentacion
 
 http://pear.php.net/manual/en/installation.php
 
