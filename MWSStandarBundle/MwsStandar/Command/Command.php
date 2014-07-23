@@ -12,8 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Command extends ContainerAwareCommand
 {
     
-    private $EXEC_TMP_DIR = 'C:\tmp';
-    
     protected function configure()
     {
         $this
