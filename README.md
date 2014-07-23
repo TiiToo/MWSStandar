@@ -1,5 +1,9 @@
 # PHP Standar
 
+REquiere tener instalado PEAR consulte la Documentacion
+
+http://pear.php.net/manual/en/installation.php
+
 ## Installation
 
 ### Agregar al composer.json
