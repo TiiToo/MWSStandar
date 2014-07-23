@@ -50,6 +50,18 @@ En la consola de Symfony correr el comando
 app/console MWS:Standar
 ```
 
+# Instalacion en Windows
 
+```cli
+
+Requiere Git Bash
+
+http://git-scm.com/downloads
+
+Ejecutar el Scrip GIT_ENV.reg junto al Bundle
+
+Crear el siguiente directorio C:\tmp
+
+```
 
 ### Listo!
