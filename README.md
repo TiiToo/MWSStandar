@@ -27,12 +27,12 @@ Usar el comando composer update
 
 # Agregar al AppKernel
 
-new MwsStandar\MWSStandarBundle(),
+```new MwsStandar\MWSStandarBundle(),
 
 # Instalacion de Code Standar
 
 En la consola de Symfony correr el comando 
 
-MWS:Standar
+```MWS:Standar
 
 # Listo!
