@@ -54,7 +54,6 @@ class Command extends ContainerAwareCommand
                 exec($phpDir . ' --config-set default_standard Symfony2');
             }
             
-            exec($phpDir . 'phpcs --config-set default_standard Symfony2');
             $output->writeln('Listo!');
             
             if (!copy($MWSHook, $defaulHook)) {
