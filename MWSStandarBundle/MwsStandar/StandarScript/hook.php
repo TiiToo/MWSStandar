@@ -91,7 +91,7 @@ class CodeQualityTool extends Application
         $output = array();
         $rc = 0;
         
-        if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
+        if (strncasecmp(PHP_OS, 'WIN', 3) != 0) {
             exec('git rev-parse --verify HEAD 2> /dev/null', $output, $rc);
 
             $against = '4b825dc642cb6eb9a060e54bf8d69288fbee4904';
