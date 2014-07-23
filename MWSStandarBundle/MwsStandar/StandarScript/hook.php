@@ -90,16 +90,43 @@ class CodeQualityTool extends Application
     {
         $output = array();
         $rc = 0;
- 
-        exec('git rev-parse --verify HEAD 2> /dev/null', $output, $rc);
- 
+        
+        if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
+            exec('git rev-parse --verify HEAD 2> /dev/null', $output, $rc);
+
+            $against = '4b825dc642cb6eb9a060e54bf8d69288fbee4904';
+            if ($rc == 0) {
+                $against = 'HEAD';
+            }
+
+            exec("git diff-index --cached --name-status $against | egrep '^(A|M)' | awk '{print $2;}'", $output);
+        }else{
+            exec('git rev-parse --verify HEAD 2>null', $output, $rc);
+		
         $against = '4b825dc642cb6eb9a060e54bf8d69288fbee4904';
         if ($rc == 0) {
             $against = 'HEAD';
         }
- 
-        exec("git diff-index --cached --name-status $against | egrep '^(A|M)' | awk '{print $2;}'", $output);
- 
+		$outputfile =  'c:\\tmp\\' . time() . '.txt';
+		$outputfileAWK =  'c:\\tmp\\' . time() . 'AWK.txt';
+		
+		exec('git diff-index --cached --name-status '. $against . ' > ' . $outputfile);
+		exec('sh.exe awk "{print $2;}" ' .$outputfile .' > '. $outputfileAWK);
+		
+		$lines=array();
+		$fp=fopen($outputfileAWK, 'r');
+		while (!feof($fp))
+		{
+			$line=fgets($fp);
+			$line=trim($line);
+			$lines[]=$line;
+		}
+		fclose($fp);
+
+		unlink($outputfile);
+		unlink($outputfileAWK);
+                $output = $lines;
+        }
         return $output;
     }
  
