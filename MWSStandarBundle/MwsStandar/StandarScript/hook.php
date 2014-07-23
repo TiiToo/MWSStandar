@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?php
-require __DIR__ . '/../../../../../../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
  
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -31,7 +31,7 @@ class CodeQualityTool extends Application
         $this->input = $input;
         $this->output = $output;
  
-        $output->writeln('<fg=white;options=bold;bg=green> Code Quality Tool</fg=white;options=bold;bg=white>');
+        $output->writeln('<fg=white;options=bold;bg=red> Code Quality Tool</fg=white;options=bold;bg=red>');
         $output->writeln('<info>Obteniendo Archivos Modificados</info>');
         $files = $this->extractCommitedFiles();
  
@@ -135,16 +135,15 @@ class CodeQualityTool extends Application
         $needle = self::PHP_FILES_IN_SRC;
         $succeed = true;
         $rootPath = realpath(__DIR__ . '/../../');
- 
         foreach ($files as $file) {
             if (!preg_match($needle, $file)) {
                 continue;
             }
             
             if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
-                $processBuilder = new ProcessBuilder(['php', $this->phpDir . '/phpmd', $file, 'text', 'controversial']);
+                $processBuilder = new ProcessBuilder(array('php', $this->phpDir . '/phpmd', $file, 'text', 'controversial'));
             }else{
-                $processBuilder = new ProcessBuilder(['php', '/bin/phpmd', $file, 'text', 'controversial']);
+                $processBuilder = new ProcessBuilder(array('php', '/bin/phpmd', $file, 'text', 'controversial'));
             }
             
             $processBuilder->setWorkingDirectory($rootPath);
