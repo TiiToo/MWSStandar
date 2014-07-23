@@ -4,7 +4,23 @@ Requiere tener instalado PEAR consulte la Documentacion
 
 http://pear.php.net/manual/en/installation.php
 
-## Installation
+## Importante Windows
+
+```cli
+
+Requiere Git Bash
+
+http://git-scm.com/downloads
+
+Ejecutar el Scrip GIT_ENV.reg incluido en el Bundle
+
+Crear el siguiente directorio C:\tmp
+
+Continuar con la Instalacion
+
+```
+
+## Instalacion
 
 ### Agregar al composer.json
 ```json
