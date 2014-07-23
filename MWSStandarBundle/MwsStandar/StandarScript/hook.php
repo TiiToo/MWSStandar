@@ -12,12 +12,18 @@ class CodeQualityTool extends Application
     private $output;
     private $input;
  
+    private $phpDir;
+    
     const PHP_FILES_IN_SRC = '/^src\/(.*)(\.php)$/';
     const PHP_FILES_IN_CLASSES = '/^classes\/(.*)(\.php)$/';
  
     public function __construct()
     {
         parent::__construct('MWS Code Standar Tool', '1.0');
+        
+        $pearDir = exec('pear config-get php_dir');
+        $this->phpDir = substr($pearDir,0,-5);
+            
     }
  
     public function doRun(InputInterface $input, OutputInterface $output)
@@ -135,7 +141,12 @@ class CodeQualityTool extends Application
                 continue;
             }
             
-            $processBuilder = new ProcessBuilder(['php', PHP_BINDIR . '/phpmd', $file, 'text', 'controversial']);
+            if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
+                $processBuilder = new ProcessBuilder(['php', $this->phpDir . '/phpmd', $file, 'text', 'controversial']);
+            }else{
+                $processBuilder = new ProcessBuilder(['php', '/bin/phpmd', $file, 'text', 'controversial']);
+            }
+            
             $processBuilder->setWorkingDirectory($rootPath);
             $process = $processBuilder->getProcess();
             $process->run();
@@ -155,7 +166,11 @@ class CodeQualityTool extends Application
  
     private function unitTests()
     {
-        $processBuilder = new ProcessBuilder(array('php', PHP_BINDIR . '/phpunit'));
+        if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
+            $processBuilder = new ProcessBuilder(array('php', $this->phpDir . '/phpunit'));
+        }else{
+            $processBuilder = new ProcessBuilder(array('php', '/bin/phpunit'));
+        }
         $processBuilder->setWorkingDirectory(__DIR__ . '/../..');
         $processBuilder->setTimeout(3600);
         $phpunit = $processBuilder->getProcess();
@@ -183,8 +198,13 @@ class CodeQualityTool extends Application
             if ($classesFile) {
                 $fixers = 'eof_ending,indentation,linefeed,lowercase_keywords,trailing_spaces,short_tag,php_closing_tag,extra_empty_lines,elseif,function_declaration';
             }
-            $processBuilder = new ProcessBuilder(array('php', PHP_BINDIR . '/php-cs-fixer', '--dry-run', '--verbose', 'fix', $file, '--fixers='.$fixers));
- 
+            if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
+                $processBuilder = new ProcessBuilder(array('php', $this->phpDir . '/php-cs-fixer', '--dry-run', '--verbose', 'fix', $file, '--fixers='.$fixers));
+            }else{
+                $processBuilder = new ProcessBuilder(array('php', '/bin/php-cs-fixer', '--dry-run', '--verbose', 'fix', $file, '--fixers='.$fixers));
+
+            }
+            
             $processBuilder->setWorkingDirectory(__DIR__ . '/../../');
             $phpCsFixer = $processBuilder->getProcess();
             $phpCsFixer->run();
@@ -211,7 +231,11 @@ class CodeQualityTool extends Application
                 continue;
             }
  
-            $processBuilder = new ProcessBuilder(array('php', PHP_BINDIR . '/phpcs', '--standard=Symfony2', $file));
+            if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
+                $processBuilder = new ProcessBuilder(array('php', $this->phpDir . '/phpcs', '--standard=Symfony2', $file));
+            }else{
+                $processBuilder = new ProcessBuilder(array('php', '/bin/phpcs', '--standard=Symfony2', $file));
+            }
             $processBuilder->setWorkingDirectory(__DIR__ . '/../../');
             $phpCsFixer = $processBuilder->getProcess();
             $phpCsFixer->run();
