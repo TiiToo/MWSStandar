@@ -1,14 +1,19 @@
 <?php
 
-namespace MwsStandar\Composer\Command;
+namespace MwsStandar\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+
+
 class Command extends ContainerAwareCommand
 {
+    
+    private $EXEC_TMP_DIR = 'C:\tmp';
+    
     protected function configure()
     {
         $this
@@ -20,11 +25,10 @@ class Command extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
             $pearDir = exec('pear config-get php_dir');
-            $phpDir = PHP_BINDIR;
-            
-            $MWSHook = __DIR__. '../StandarScript/hook.php';
+            $phpDir = substr($pearDir,0,-4);
+            $MWSHook = __DIR__. '/../StandarScript/hook.php';
             $defaulHook = __DIR__.'/../../../../../../.git/hooks/pre-commit';
-            
+           
             $output->writeln('Instalando PHP_CodeSniffer');
             exec('pear install PHP_CodeSniffer');
             
@@ -39,12 +43,15 @@ class Command extends ContainerAwareCommand
             exec('git clone git://github.com/opensky/Symfony2-coding-standard.git ' . $pearDir . '/PHP/CodeSniffer/Standards/Symfony2');
             
             $output->writeln('Estableciendo Standar Symfony2 como Principal');
-            exec($phpDir . '/phpcs --config-set default_standard Symfony2');
+            exec($phpDir . 'phpcs --config-set default_standard Symfony2');
+            $output->writeln('Listo!');
             
             if (!copy($MWSHook, $defaulHook)) {
-                echo "Error al Actualizar MWS HOOK\n";
+                $output->writeln("Error al Actualizar Pre-Commit MWS HOOK\n");
+            }else{
+                $output->writeln("Pre-Commit MWS HOOK Actualizado Correctamente\n");
             }
     }
-}
+  }
 
 ?>
