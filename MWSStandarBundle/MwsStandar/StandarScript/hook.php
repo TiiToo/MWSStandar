@@ -98,7 +98,7 @@ class CodeQualityTool extends Application
             $against = 'HEAD';
         }
  
-        exec("git diff-index --cached --name-status $against | grep '^(A|M)' | awk '{print $2;}'", $output);
+        exec("git diff-index --cached --name-status $against | egrep '^(A|M)' | awk '{print $2;}'", $output);
  
         return $output;
     }
@@ -143,7 +143,8 @@ class CodeQualityTool extends Application
             if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
                 $processBuilder = new ProcessBuilder(array('php', $this->phpDir . '/phpmd', $file, 'text', 'controversial'));
             }else{
-                $processBuilder = new ProcessBuilder(array('php', '/bin/phpmd', $file, 'text', 'controversial'));
+                $phpmdDir = exec('which phpcs');
+                $processBuilder = new ProcessBuilder(array('php', $phpmdDir, $file, 'text', 'controversial'));
             }
             
             $processBuilder->setWorkingDirectory($rootPath);
@@ -168,7 +169,8 @@ class CodeQualityTool extends Application
         if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
             $processBuilder = new ProcessBuilder(array('php', $this->phpDir . '/phpunit'));
         }else{
-            $processBuilder = new ProcessBuilder(array('php', '/bin/phpunit'));
+            $phpunitDir = exec('which phpunit');
+            $processBuilder = new ProcessBuilder(array('php', $phpunitDir));
         }
         $processBuilder->setWorkingDirectory(__DIR__ . '/../..');
         $processBuilder->setTimeout(3600);
@@ -200,7 +202,8 @@ class CodeQualityTool extends Application
             if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
                 $processBuilder = new ProcessBuilder(array('php', $this->phpDir . '/php-cs-fixer', '--dry-run', '--verbose', 'fix', $file, '--fixers='.$fixers));
             }else{
-                $processBuilder = new ProcessBuilder(array('php', '/bin/php-cs-fixer', '--dry-run', '--verbose', 'fix', $file, '--fixers='.$fixers));
+                $phpcsfixerDir = exec('which php-cs-fixer');
+                $processBuilder = new ProcessBuilder(array('php', $phpcsfixerDir, '--dry-run', '--verbose', 'fix', $file, '--fixers='.$fixers));
 
             }
             
@@ -233,7 +236,8 @@ class CodeQualityTool extends Application
             if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
                 $processBuilder = new ProcessBuilder(array('php', $this->phpDir . '/phpcs', '--standard=Symfony2', $file));
             }else{
-                $processBuilder = new ProcessBuilder(array('php', '/bin/phpcs', '--standard=Symfony2', $file));
+                $phpcsDir = exec('which phpcs');
+                $processBuilder = new ProcessBuilder(array('php', $phpcsDir, '--standard=Symfony2', $file));
             }
             $processBuilder->setWorkingDirectory(__DIR__ . '/../../');
             $phpCsFixer = $processBuilder->getProcess();

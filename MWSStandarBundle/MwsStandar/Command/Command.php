@@ -23,7 +23,13 @@ class Command extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
             $pearDir = exec('pear config-get php_dir');
-            $phpDir = substr($pearDir,0,-4);
+            
+            if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
+                $phpDir = substr($pearDir, 0,-4);
+            }else{
+                $phpDir = exec('which phpcs');
+            }
+            
             $MWSHook = __DIR__. '/../StandarScript/hook.php';
             $defaulHook = __DIR__.'/../../../../../../.git/hooks/pre-commit';
            
@@ -41,6 +47,13 @@ class Command extends ContainerAwareCommand
             exec('git clone git://github.com/opensky/Symfony2-coding-standard.git ' . $pearDir . '/PHP/CodeSniffer/Standards/Symfony2');
             
             $output->writeln('Estableciendo Standar Symfony2 como Principal');
+            
+            if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
+                exec($phpDir . 'phpcs --config-set default_standard Symfony2');
+            }else{
+                exec($phpDir . ' --config-set default_standard Symfony2');
+            }
+            
             exec($phpDir . 'phpcs --config-set default_standard Symfony2');
             $output->writeln('Listo!');
             
