@@ -2,7 +2,7 @@
 
 ## Installation
 
-# Agregar al composer.json
+### Agregar al composer.json
 ```json
 {
     "require-dev": {
@@ -23,16 +23,28 @@
     }
 }
 
-Usar el comando composer update
+Execute:
 
-# Agregar al AppKernel
+```cli
+php composer.phar update "tito/mwsstandar"
+```
 
-```new MwsStandar\MWSStandarBundle(),
+### Agregar al AppKernel
 
-# Instalacion de Code Standar
+```php
+	// ...
+	new MwsStandar\MWSStandarBundle(),
+```
+
+
+### Instalacion de Code Standar
 
 En la consola de Symfony correr el comando 
 
-```MWS:Standar
+```cli
+app/console MWS:Standar
+```
 
-# Listo!
+
+
+### Listo!
