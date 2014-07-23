@@ -1,8 +1,8 @@
 # PHP Standar
 
-PHP Standar
 ## Installation
 
+# Agregar al composer.json
 ```json
 {
     "require-dev": {
@@ -10,8 +10,6 @@ PHP Standar
     }
 }
 ```
-
-Obligar A Utilizar
 
 ```json
 {
@@ -24,3 +22,17 @@ Obligar A Utilizar
          ]
     }
 }
+
+Usar el comando composer update
+
+# Agregar al AppKernel
+
+new MwsStandar\MWSStandarBundle(),
+
+# Instalacion de Code Standar
+
+En la consola de Symfony correr el comando 
+
+MWS:Standar
+
+# Listo!
